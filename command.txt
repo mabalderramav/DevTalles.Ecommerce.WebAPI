@@ -1,0 +1,17 @@
+# Commands utility to manage Docker containers with docker-compose:
+# Start containers in the background:
+docker-compose up -d
+# Stop and remove containers (does not remove volumes):
+docker-compose down
+# Build the project using the .NET CLI:
+dotent build
+# Install the Entity Framework Core command-line tools globally:
+dotnet tool install --global dotnet-ef
+# Check the installed version of the Entity Framework Core tools:
+dotnet ef --version
+# Add the Entity Framework Core Design package to your project:
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.14
+# Add a new migration named "InitialMigration" to your project:
+dotnet ef migrations add InitialMigration
+# Update the database to apply the latest migrations:
+dotnet ef database update
