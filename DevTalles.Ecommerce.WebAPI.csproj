@@ -23,7 +23,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\Dtos\" />
     <Folder Include="Mapping\" />
-    <Folder Include="Repository\IRepository\" />
   </ItemGroup>
 
 </Project>
