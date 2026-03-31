@@ -4,10 +4,21 @@ using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
 
 namespace DevTalles.Ecommerce.WebAPI.Repository
 {
+    /// <summary>
+    /// Repository class for managing categories in the e-commerce system.
+    /// Provides functionality for creating, updating, deleting, and retrieving
+    /// category-related data from the underlying database.
+    /// </summary>
     public class CategoryRepository(ApplicationDbContext db) : ICategoryRepository
     {
         private readonly ApplicationDbContext _db = db;
 
+        /// <summary>
+        /// Retrieves a collection of all categories from the database, ordered by their names.
+        /// </summary>
+        /// <returns>
+        /// A collection of <see cref="Category"/> representing all categories in the system, ordered alphabetically.
+        /// </returns>
         public ICollection<Category> GetCategories()
         {
             return _db.Categories.OrderBy(c => c.Name).ToList();

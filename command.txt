@@ -4,7 +4,7 @@ docker-compose up -d
 # Stop and remove containers (does not remove volumes):
 docker-compose down
 # Build the project using the .NET CLI:
-dotent build
+dotnet build
 # Install the Entity Framework Core command-line tools globally:
 dotnet tool install --global dotnet-ef
 # Check the installed version of the Entity Framework Core tools:
