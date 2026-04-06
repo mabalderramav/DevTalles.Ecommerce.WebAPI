@@ -17,3 +17,10 @@ dotnet add package AutoMapper --version 16.1.1
 dotnet ef migrations add InitialMigration
 # Update the database to apply the latest migrations:
 dotnet ef database update
+# Connection string for SQL Server:
+## Ubuntu/WSL, use host alias:
+Server=host.docker.internal,1433;Database=ApiEcommerceNET8;User ID=SA;Password=$Aldo123$5;TrustServerCertificate=true;MultipleActiveResultSets=true
+## Windows, use localhost:
+Server=localhost,1433;Database=ApiEcommerceNET8;User ID=SA;Password=$Aldo123$5;TrustServerCertificate=true;MultipleActiveResultSets=true
+# Update the database using a specific connection string: Ubuntu/WSL
+dotnet ef database update --connection 'Server=host.docker.internal,1433;Database=ApiEcommerceNET8;User ID=SA;Password=$Aldo123$5;TrustServerCertificate=true;MultipleActiveResultSets=true;Encrypt=true'
