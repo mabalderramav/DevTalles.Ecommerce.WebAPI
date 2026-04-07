@@ -24,10 +24,9 @@ namespace DevTalles.Ecommerce.WebAPI.Repository
             return _db.Categories.OrderBy(c => c.Name).ToList();
         }
 
-        public Category GetCategory(int categoryId)
+        public Category? GetCategory(int categoryId)
         {
-            return _db.Categories.FirstOrDefault(c => c.Id == categoryId) ??
-                   throw new InvalidOperationException($"Category with ID {categoryId} not found.");
+            return _db.Categories.FirstOrDefault(c => c.Id == categoryId);
         }
 
         public bool CategoryExists(int id)

@@ -21,7 +21,7 @@ namespace DevTalles.Ecommerce.WebAPI.Repository.IRepository
         /// <returns>
         /// A <see cref="Category"/> object representing the requested category, or null if not found.
         /// </returns>
-        Category GetCategory(int categoryId);
+        Category? GetCategory(int categoryId);
         /// <summary>
         /// Determines whether a category with the specified unique identifier exists in the e-commerce system.
         /// </summary>
