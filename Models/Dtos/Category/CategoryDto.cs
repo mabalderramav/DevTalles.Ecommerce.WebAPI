@@ -1,4 +1,4 @@
-namespace DevTalles.Ecommerce.WebAPI.Models.Dtos;
+namespace DevTalles.Ecommerce.WebAPI.Models.Dtos.Category;
 
 public class CategoryDto
 {

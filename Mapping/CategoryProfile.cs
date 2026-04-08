@@ -1,6 +1,6 @@
 using AutoMapper;
 using DevTalles.Ecommerce.WebAPI.Models;
-using DevTalles.Ecommerce.WebAPI.Models.Dtos;
+using DevTalles.Ecommerce.WebAPI.Models.Dtos.Category;
 
 namespace DevTalles.Ecommerce.WebAPI.Mapping;
 

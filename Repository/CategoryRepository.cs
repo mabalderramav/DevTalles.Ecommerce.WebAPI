@@ -31,7 +31,7 @@ namespace DevTalles.Ecommerce.WebAPI.Repository
 
         public bool CategoryExists(int id)
         {
-            return _db.Categories.Any(c => c.Id == id);
+            return _db.Categories.Any(c => c.Id == id);     
         }
 
         public bool CategoryExists(string name)

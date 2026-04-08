@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DevTalles.Ecommerce.WebAPI.Models.Dtos;
+namespace DevTalles.Ecommerce.WebAPI.Models.Dtos.Category;
 
 public class CreateCategoryDto
 {

@@ -15,6 +15,8 @@ dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.14
 dotnet add package AutoMapper --version 16.1.1
 # Add a new migration named "InitialMigration" to your project:
 dotnet ef migrations add InitialMigration
+# Remove the latest migration from your project:
+dotnet ef migrations remove 
 # Update the database to apply the latest migrations:
 dotnet ef database update
 # Connection string for SQL Server:

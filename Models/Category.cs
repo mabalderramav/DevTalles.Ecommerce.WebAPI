@@ -8,14 +8,10 @@ namespace DevTalles.Ecommerce.WebAPI.Models
     /// </summary>
     public class Category
     {
-        [Key]
-        public int Id { get; set; }
-        
-        [MaxLength(50)]
-        [MinLength(3)]
-        public string Name { get; set; } = string.Empty;
+        [Key] public int Id { get; set; }
 
-        [Required]
-        public DateTime CreationDate { get; set; }
+        [MaxLength(50)] [MinLength(3)] public string Name { get; set; } = string.Empty;
+
+        [Required] public DateTime CreationDate { get; set; }
     }
 }
