@@ -1,6 +1,7 @@
 using DevTalles.Ecommerce.WebAPI.Data;
 using DevTalles.Ecommerce.WebAPI.Models;
 using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevTalles.Ecommerce.WebAPI.Repository;
 
@@ -10,7 +11,7 @@ public class ProductRepository(ApplicationDbContext db) : IProductRepository
 
     public ICollection<Product> GetProducts()
     {
-        return _db.Products.OrderBy(p => p.Name).ToList();
+        return _db.Products.Include(p => p.Category).OrderBy(p => p.Name).ToList();
     }
 
     public ICollection<Product> GetProductsByCategory(int categoryId)
@@ -32,7 +33,7 @@ public class ProductRepository(ApplicationDbContext db) : IProductRepository
 
     public Product? GetProduct(int productId)
     {
-        return productId <= 0 ? null : _db.Products.Find(productId);
+        return productId <= 0 ? null : _db.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == productId);
     }
 
     public bool BuyProduct(string productName, int quantity)
