@@ -18,17 +18,24 @@ public class ProductRepository(ApplicationDbContext db) : IProductRepository
     {
         return categoryId <= 0
             ? []
-            : _db.Products.Where(p => p.CategoryId == categoryId).OrderBy(p => p.Name).ToList();
+            : _db.Products
+            .Include(p => p.Category)
+            .Where(p => p.CategoryId == categoryId)
+            .OrderBy(p => p.Name)
+            .ToList();
     }
 
-    public ICollection<Product> SearchProduct(string name)
+    public ICollection<Product> SearchProducts(string searchTerm)
     {
-        return string.IsNullOrWhiteSpace(name)
+        return string.IsNullOrWhiteSpace(searchTerm)
             ? []
             : _db.Products
-                .Where(p => p.Name.ToLower().Trim().Contains(name.ToLower().Trim()))
-                .OrderBy(p => p.Name)
-                .ToList();
+            .Include(p => p.Category)
+            .Where(p =>
+                p.Name.ToLower().Trim().Contains(searchTerm.ToLower().Trim()) ||
+                p.Description.ToLower().Trim().Contains(searchTerm.ToLower().Trim()))
+            .OrderBy(p => p.Name)
+            .ToList();
     }
 
     public Product? GetProduct(int productId)
