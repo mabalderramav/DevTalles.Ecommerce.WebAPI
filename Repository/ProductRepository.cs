@@ -19,10 +19,10 @@ public class ProductRepository(ApplicationDbContext db) : IProductRepository
         return categoryId <= 0
             ? []
             : _db.Products
-            .Include(p => p.Category)
-            .Where(p => p.CategoryId == categoryId)
-            .OrderBy(p => p.Name)
-            .ToList();
+                .Include(p => p.Category)
+                .Where(p => p.CategoryId == categoryId)
+                .OrderBy(p => p.Name)
+                .ToList();
     }
 
     public ICollection<Product> SearchProducts(string searchTerm)
@@ -30,17 +30,21 @@ public class ProductRepository(ApplicationDbContext db) : IProductRepository
         return string.IsNullOrWhiteSpace(searchTerm)
             ? []
             : _db.Products
-            .Include(p => p.Category)
-            .Where(p =>
-                p.Name.ToLower().Trim().Contains(searchTerm.ToLower().Trim()) ||
-                p.Description.ToLower().Trim().Contains(searchTerm.ToLower().Trim()))
-            .OrderBy(p => p.Name)
-            .ToList();
+                .Include(p => p.Category)
+                .Where(p =>
+                    p.Name.ToLower().Trim().Contains(searchTerm.ToLower().Trim()) ||
+                    p.Description.ToLower().Trim().Contains(searchTerm.ToLower().Trim()))
+                .OrderBy(p => p.Name)
+                .ToList();
     }
 
     public Product? GetProduct(int productId)
     {
-        return productId <= 0 ? null : _db.Products.Include(p => p.Category).FirstOrDefault(p => p.ProductId == productId);
+        return productId <= 0
+            ? null
+            : _db.Products
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.ProductId == productId);
     }
 
     public bool BuyProduct(string productName, int quantity)

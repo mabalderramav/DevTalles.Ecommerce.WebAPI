@@ -11,8 +11,10 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController
-        (IProductRepository productRepository, IMapper mapper, ICategoryRepository categoryRepository) : ControllerBase
+    public class ProductsController(
+        IProductRepository productRepository,
+        IMapper mapper,
+        ICategoryRepository categoryRepository) : ControllerBase
     {
         private readonly IProductRepository _productRepository = productRepository;
         private readonly IMapper _mapper = mapper;
@@ -56,6 +58,7 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
                     $"Product with name {createProductDto.Name} already exists.");
                 return BadRequest(ModelState);
             }
+
             if (!_categoryRepository.CategoryExists(createProductDto.CategoryId))
             {
                 ModelState.AddModelError("CustomError",
@@ -139,6 +142,7 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
                 ModelState.AddModelError("CustomError", $"Product with ID {productId} does not exist.");
                 return BadRequest(ModelState);
             }
+
             if (!_categoryRepository.CategoryExists(updateProductDto.CategoryId))
             {
                 ModelState.AddModelError("CustomError",
