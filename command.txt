@@ -14,6 +14,16 @@ dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.14
 # Add the AutoMapper package to your project:
 dotnet add package AutoMapper --version 16.1.1
 # Add a new migration named "InitialMigration" to your project:
+# Add the BCrypt.Net-Next package to your project for password hashing:
+dotnet add package BCrypt.Net-Next --version 4.0.3
+
+# Add packages for JWT authentication:
+dotnet add package System.IdentityModel.Tokens.Jwt --version 8.14.0
+dotnet add package Microsoft.IdentityModel.Tokens --version 8.14.0
+## The Microsoft.IdentityModel.JsonWebTokens package provides functionality for creating and validating JSON Web Tokens (JWTs) in .NET applications. It is part of the Microsoft IdentityModel library, which offers various tools and components for handling authentication and authorization in .NET applications.
+## this is optional, but it can be useful for working with JWTs in a more structured way, especially if you need to create or validate JWTs in your application:
+dotnet add package Microsoft.IdentityModel.JsonWebTokens --version 8.14.0
+
 dotnet ef migrations add InitialMigration
 # Remove the latest migration from your project:
 dotnet ef migrations remove 
