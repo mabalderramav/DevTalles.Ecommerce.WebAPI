@@ -1,3 +1,4 @@
+using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Data;
 using DevTalles.Ecommerce.WebAPI.Repository;
 using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
@@ -16,6 +17,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(PolicyName.AllowSpecificOrigin, policyBuilder =>
+    {
+        policyBuilder.WithOrigins("*") 
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -27,6 +37,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(PolicyName.AllowSpecificOrigin);
 
 app.UseAuthorization();
 

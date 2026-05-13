@@ -1,13 +1,16 @@
 using AutoMapper;
+using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Models;
 using DevTalles.Ecommerce.WebAPI.Models.Dtos.Category;
 using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTalles.Ecommerce.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors(PolicyName.AllowSpecificOrigin)]
     public class CategoriesController(ICategoryRepository categoryRepository, IMapper mapper) : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;
@@ -28,6 +31,7 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        // [EnableCors(PolicyName.AllowSpecificOrigin)]
         public IActionResult GetCategory(int id)
         {
             var category = _categoryRepository.GetCategory(id);
