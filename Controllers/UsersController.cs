@@ -1,12 +1,17 @@
 ﻿using AutoMapper;
+using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Models.Dtos.Users;
 using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTalles.Ecommerce.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors(PolicyName.AllowSpecificOrigin)]
+    [Authorize(Roles = "Admin")]
     public class UsersController(
         IUserRepository userRepository,
         IMapper mapper) : ControllerBase
@@ -34,6 +39,7 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
             return Ok(userDto);
         }
 
+        [AllowAnonymous]
         [HttpPost(Name = "RegisterUser")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -62,6 +68,7 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
             return CreatedAtRoute("GetUser", new { userId = userDto.Id }, userDto);
         }
 
+        [AllowAnonymous]
         [HttpPost("Login", Name = "LoginUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

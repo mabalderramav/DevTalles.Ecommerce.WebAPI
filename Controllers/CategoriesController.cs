@@ -3,6 +3,7 @@ using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Models;
 using DevTalles.Ecommerce.WebAPI.Models.Dtos.Category;
 using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors(PolicyName.AllowSpecificOrigin)]
+    [Authorize(Roles = "Admin")]
     public class CategoriesController(ICategoryRepository categoryRepository, IMapper mapper) : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository = categoryRepository;

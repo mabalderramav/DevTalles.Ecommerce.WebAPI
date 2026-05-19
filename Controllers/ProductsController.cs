@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
+using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Models;
-using DevTalles.Ecommerce.WebAPI.Models.Dtos.Category;
 using DevTalles.Ecommerce.WebAPI.Models.Dtos.Products;
-using DevTalles.Ecommerce.WebAPI.Repository;
 using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevTalles.Ecommerce.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors(PolicyName.AllowSpecificOrigin)]
+    [Authorize(Roles = "Admin")]
     public class ProductsController(
         IProductRepository productRepository,
         IMapper mapper,
