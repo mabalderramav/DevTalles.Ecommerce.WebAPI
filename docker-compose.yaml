@@ -13,3 +13,9 @@
       ConnectionStrings__ConnectionSql: Server=${DB_HOST};Database=${DB_NAME};User ID=${DB_USER};Password=${DB_PASSWORD};TrustServerCertificate=true;MultipleActiveResultSets=true
       ApiSettings__SecretKey: ${API_SECRET_KEY}
     restart: unless-stopped
+    networks:
+      - miasoftnanus-network
+  
+networks:
+  miasoftnanus-network:
+    external: true
