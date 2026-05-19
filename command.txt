@@ -36,3 +36,36 @@ Server=host.docker.internal,1433;Database=ApiEcommerceNET8;User ID=SA;Password=$
 Server=localhost,1433;Database=ApiEcommerceNET8;User ID=SA;Password=$Aldo123$5;TrustServerCertificate=true;MultipleActiveResultSets=true
 # Update the database using a specific connection string: Ubuntu/WSL
 dotnet ef database update --connection 'Server=host.docker.internal,1433;Database=ApiEcommerceNET8;User ID=SA;Password=$Aldo123$5;TrustServerCertificate=true;MultipleActiveResultSets=true;Encrypt=true'
+
+# Docker image build and push to Docker Hub:
+# (1) Login to Docker Hub
+# docker login
+
+# (2) Build image from Dockerfile
+# docker build -t <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:latest .
+
+# (3) Optional: add version tag
+# docker tag <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:latest <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:v1.0.0
+
+# (4) Push tags
+# docker push <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:latest
+# docker push <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:v1.0.0
+
+# Docker compose commands for this project (uses .env automatically):
+# Build and start services in background
+# docker compose up --build -d
+
+# Start services (without rebuild)
+# docker compose up -d
+
+# Stream logs
+# docker compose logs -f
+
+# Stop and remove containers/network
+# docker compose down
+
+# Stop and remove containers/network + anonymous volumes
+# docker compose down -v
+
+# Validate docker-compose.yaml after env substitution
+# docker compose -f docker-compose.yaml config
