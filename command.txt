@@ -46,12 +46,12 @@ dotnet ef database update --connection 'Server=host.docker.internal,1433;Databas
 
 # (3) Optional: add version tag
 # docker tag <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:latest <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:v1.0.0
-docker tag devtalles-ecommerce-webapi:latest mabalderramav/devtalles-ecommerce-webapi:v1.0.0
+docker tag devtalles-ecommerce-webapi:latest mabalderramav/devtalles-ecommerce-webapi:v1.0.1
 
 # (4) Push tags
 # docker push <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:latest
 # docker push <DOCKERHUB_USERNAME>/devtalles-ecommerce-webapi:v1.0.0
-docker push mabalderramav/devtalles-ecommerce-webapi:v1.0.0
+docker push mabalderramav/devtalles-ecommerce-webapi:v1.0.1
 
 # Docker compose commands for this project (uses .env automatically):
 # Build and start services in background
