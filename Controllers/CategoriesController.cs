@@ -29,6 +29,8 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
         }
 
         [HttpGet("{id:int}", Name = "GetCategory")]
+        // [ResponseCache(Duration = 60)]
+        [ResponseCache(CacheProfileName = CacheProfiles.DefaultCacheProfile)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -36,7 +38,10 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
         // [EnableCors(PolicyName.AllowSpecificOrigin)]
         public IActionResult GetCategory(int id)
         {
+            Console.WriteLine($"Received request for category with ID: {id} at {DateTime.UtcNow}");
             var category = _categoryRepository.GetCategory(id);
+            Console.WriteLine(
+                $"Category retrieval result for ID {id}: {(category != null ? "Found" : "Not Found")} at {DateTime.UtcNow}");
             if (category == null) return NotFound($"Category with ID {id} not found.");
             var categoryDto = _mapper.Map<CategoryDto>(category);
             return Ok(categoryDto);

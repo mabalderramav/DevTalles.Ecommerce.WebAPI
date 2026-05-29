@@ -13,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var dbConnectionString = builder.Configuration.GetConnectionString("ConnectionSql");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbConnectionString));
+builder.Services.AddResponseCaching(options =>
+{
+    options.MaximumBodySize = 1024 * 1024; // 1 MB
+    options.UseCaseSensitivePaths = true;
+});
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -35,7 +41,14 @@ builder.Services.AddAuthentication(option =>
         ValidateAudience = false,
     };
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.CacheProfiles.Add(CacheProfiles.DefaultCacheProfile,
+        CacheProfiles.Profiles[CacheProfiles.DefaultCacheProfile]);
+    options.CacheProfiles.Add(CacheProfiles.Default20CacheProfile,
+        CacheProfiles.Profiles[CacheProfiles.Default20CacheProfile]);
+    options.CacheProfiles.Add(CacheProfiles.NoCacheProfile, CacheProfiles.Profiles[CacheProfiles.NoCacheProfile]);
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -43,9 +56,9 @@ builder.Services.AddSwaggerGen(options =>
         options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
             Description = "JWT Authorization header using the Bearer scheme. Example: \n\r\n\r" +
-                          "\",Authorization: Bearer {token}\" \n\r\n\r" + 
+                          "\",Authorization: Bearer {token}\" \n\r\n\r" +
                           "Enter then your token in the text input below.\n\r\n\r" +
-                            "Example: \"eyJhbGciOi\"",
+                          "Example: \"eyJhbGciOi\"",
             Name = "Authorization",
             In = ParameterLocation.Header,
             Type = SecuritySchemeType.Http,
@@ -91,6 +104,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors(PolicyName.AllowSpecificOrigin);
+
+app.UseResponseCaching();
 
 app.UseAuthentication();
 app.UseAuthorization();
