@@ -24,6 +24,10 @@ dotnet add package Microsoft.IdentityModel.Tokens --version 8.14.0
 ## this is optional, but it can be useful for working with JWTs in a more structured way, especially if you need to create or validate JWTs in your application:
 dotnet add package Microsoft.IdentityModel.JsonWebTokens --version 8.14.0
 
+# Add packages for versioning:
+dotnet add package Asp.Versioning.Mvc.ApiExplorer --version 8.1.1
+dotnet add package Asp.Versioning.Mvc --version 8.1.1
+
 dotnet ef migrations add InitialMigration
 # Remove the latest migration from your project:
 dotnet ef migrations remove 
