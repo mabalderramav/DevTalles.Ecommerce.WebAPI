@@ -1,4 +1,5 @@
 using System.Text;
+using Asp.Versioning;
 using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Data;
 using DevTalles.Ecommerce.WebAPI.Repository;
@@ -81,8 +82,57 @@ builder.Services.AddSwaggerGen(options =>
                 new List<string>()
             }
         });
+        options.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "DevTalles.Ecommerce.WebAPI",
+            Version = "v1",
+            Description = "API for managing products, categories, and users in an e-commerce application. " +
+                          "This API supports JWT authentication and is versioned to allow for future enhancements.",
+            TermsOfService = new Uri("https://example.com/terms"),
+            Contact = new OpenApiContact
+            {
+                Name = "DevTalles Support",
+                Email = "support@example.com"
+            },
+            License = new OpenApiLicense
+            {
+                Name = "MIT License",
+                Url = new Uri("https://opensource.org/licenses/MIT")
+            }
+        });
+        options.SwaggerDoc("v2", new OpenApiInfo
+        {
+            Title = "DevTalles.Ecommerce.WebAPI",
+            Version = "v2",
+            Description = "API for managing products, categories, and users in an e-commerce application. " +
+                          "This API supports JWT authentication and is versioned to allow for future enhancements.",
+            TermsOfService = new Uri("https://example.com/terms"),
+            Contact = new OpenApiContact
+            {
+                Name = "DevTalles Support",
+                Email = "support@example.com"
+            },
+            License = new OpenApiLicense
+            {
+                Name = "MIT License",
+                Url = new Uri("https://opensource.org/licenses/MIT")
+            }
+        });
     }
 );
+
+var apiVersioningBuilder = builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+    // options.ApiVersionReader = ApiVersionReader.Combine(new QueryStringApiVersionReader("api-version"));
+});
+apiVersioningBuilder.AddApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'VVV"; // e.g., v1, v2, v3...
+    options.SubstituteApiVersionInUrl = true; // api/v{version}/[controller]
+});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(PolicyName.AllowSpecificOrigin, policyBuilder =>
@@ -99,7 +149,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
+    });
 }
 
 app.UseHttpsRedirection();

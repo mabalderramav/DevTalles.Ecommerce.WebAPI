@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Models.Dtos.Users;
 using DevTalles.Ecommerce.WebAPI.Repository.IRepository;
@@ -8,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevTalles.Ecommerce.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersionNeutral]
     [ApiController]
     [EnableCors(PolicyName.AllowSpecificOrigin)]
     [Authorize(Roles = "Admin")]

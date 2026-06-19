@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using AutoMapper;
 using DevTalles.Ecommerce.WebAPI.Constants;
 using DevTalles.Ecommerce.WebAPI.Models;
@@ -7,24 +8,24 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevTalles.Ecommerce.WebAPI.Controllers
+namespace DevTalles.Ecommerce.WebAPI.Controllers.V1
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     [ApiController]
     [EnableCors(PolicyName.AllowSpecificOrigin)]
     [Authorize(Roles = "Admin")]
     public class CategoriesController(ICategoryRepository categoryRepository, IMapper mapper) : ControllerBase
     {
-        private readonly ICategoryRepository _categoryRepository = categoryRepository;
-        private readonly IMapper _mapper = mapper;
-
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [Obsolete("This endpoint is deprecated. Use GET /api/v2/categories instead.")]
         public IActionResult GetCategories()
         {
-            var categories = _categoryRepository.GetCategories();
-            var categoriesDto = _mapper.Map<List<CategoryDto>>(categories);
+            var categories = categoryRepository.GetCategories();
+            var categoriesDto = mapper.Map<List<CategoryDto>>(categories);
             return Ok(categoriesDto);
         }
 
@@ -39,11 +40,11 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
         public IActionResult GetCategory(int id)
         {
             Console.WriteLine($"Received request for category with ID: {id} at {DateTime.UtcNow}");
-            var category = _categoryRepository.GetCategory(id);
+            var category = categoryRepository.GetCategory(id);
             Console.WriteLine(
                 $"Category retrieval result for ID {id}: {(category != null ? "Found" : "Not Found")} at {DateTime.UtcNow}");
             if (category == null) return NotFound($"Category with ID {id} not found.");
-            var categoryDto = _mapper.Map<CategoryDto>(category);
+            var categoryDto = mapper.Map<CategoryDto>(category);
             return Ok(categoryDto);
         }
 
@@ -55,15 +56,15 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
         public IActionResult CreateCategory([FromBody] CreateCategoryDto? createCategoryDto)
         {
             if (createCategoryDto == null) return BadRequest(ModelState);
-            if (_categoryRepository.CategoryExists(createCategoryDto.Name))
+            if (categoryRepository.CategoryExists(createCategoryDto.Name))
             {
                 ModelState.AddModelError("CustomError",
                     $"Category with name {createCategoryDto.Name} already exists.");
                 return BadRequest(ModelState);
             }
 
-            var category = _mapper.Map<Category>(createCategoryDto);
-            if (_categoryRepository.CreateCategory(category))
+            var category = mapper.Map<Category>(createCategoryDto);
+            if (categoryRepository.CreateCategory(category))
                 return CreatedAtRoute("GetCategory", new { id = category.Id }, category);
             ModelState.AddModelError("CustomError",
                 $"Something went wrong when saving the category {createCategoryDto.Name}.");
@@ -78,18 +79,18 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult UpdateCategory(int id, [FromBody] CreateCategoryDto? updateCategoryDto)
         {
-            if (!_categoryRepository.CategoryExists(id)) return NotFound($"Category with ID {id} not found.");
+            if (!categoryRepository.CategoryExists(id)) return NotFound($"Category with ID {id} not found.");
             if (updateCategoryDto == null) return BadRequest(ModelState);
-            if (_categoryRepository.CategoryExists(updateCategoryDto.Name))
+            if (categoryRepository.CategoryExists(updateCategoryDto.Name))
             {
                 ModelState.AddModelError("CustomError",
                     $"Category with name {updateCategoryDto.Name} already exists.");
                 return BadRequest(ModelState);
             }
 
-            var category = _mapper.Map<Category>(updateCategoryDto);
+            var category = mapper.Map<Category>(updateCategoryDto);
             category.Id = id;
-            if (_categoryRepository.UpdateCategory(category)) return NoContent();
+            if (categoryRepository.UpdateCategory(category)) return NoContent();
             ModelState.AddModelError("CustomError",
                 $"Something went wrong when updating the category {updateCategoryDto.Name}.");
             return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
@@ -103,10 +104,10 @@ namespace DevTalles.Ecommerce.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult DeleteCategory(int id)
         {
-            if (!_categoryRepository.CategoryExists(id)) return NotFound($"Category with ID {id} not found.");
-            var category = _categoryRepository.GetCategory(id);
+            if (!categoryRepository.CategoryExists(id)) return NotFound($"Category with ID {id} not found.");
+            var category = categoryRepository.GetCategory(id);
             if (category == null) return NotFound($"Category with ID {id} not found.");
-            if (_categoryRepository.DeleteCategory(category)) return NoContent();
+            if (categoryRepository.DeleteCategory(category)) return NoContent();
             ModelState.AddModelError("CustomError",
                 $"Something went wrong when deleting the category with ID {category.Id} and name {category.Name}.");
             return StatusCode(StatusCodes.Status500InternalServerError, ModelState);
